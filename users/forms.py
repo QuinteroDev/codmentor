@@ -21,3 +21,20 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'bio', 'location']
+
+class ExerciseForm(forms.Form):
+    LANGUAGE_CHOICES = [
+        ('python', 'Python'),
+        ('javascript', 'JavaScript'),
+        ('java', 'Java'),
+        ('csharp', 'C#'),
+    ]
+
+    DIFFICULTY_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+
+    language = forms.ChoiceField(choices=LANGUAGE_CHOICES, label='Language')
+    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, label='Difficulty')

@@ -11,13 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
 from django.contrib.messages import constants as messages
+import environ
+import os
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-environ.Env.read_env()
+env = environ.Env()
+env_file = os.path.join(os.path.dirname(__file__), '../.env')
+environ.Env.read_env(env_file)
+
+# Cargar las variables desde .env
+DEBUG = env.bool('DEBUG', default=False)
+SECRET_KEY = env('SECRET_KEY')
+OPENAI_API_KEY = env('OPENAI_API_KEY', default='Not Found')
+
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -32,9 +38,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 print("SECRET_KEY:", SECRET_KEY)
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -80,7 +83,7 @@ ROOT_URLCONF = 'codmentor.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'users', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

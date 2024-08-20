@@ -22,25 +22,21 @@ Codmentor is an interactive platform designed to help users learn programming th
    ```bash
    git clone https://github.com/quinterodev/codmentor.git
 
-2.	Navigate to the project directory:
+2. Navigate to the project directory:
 
-   ```bash
    cd codmentor
 
-3.	Create and activate a virtual environment:
+3. Create and activate a virtual environment:
 
-   ```bash
    python -m venv codmentor-env
    source codmentor-env/bin/activate  # On Windows: codmentor-env\Scripts\activate
 
 4.	Install the dependencies:
 
-    ```bash
      pip install -r requirements.txt
 
 5.	Apply the migrations and run the development server:
 
-    ```bash
     python manage.py migrate
     python manage.py runserver
 

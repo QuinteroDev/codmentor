@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Generate a Programming Exercise</h2>
+    <form method="POST" id="exercise-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Generate Exercise</button>
+    </form>
+    <div id="exercise-result" class="mt-4"></div>
+</div>
+
+<script>
+    document.getElementById('exercise-form').onsubmit = function(event) {
+        event.preventDefault();
+        var form = event.target;
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('exercise-result').innerHTML = `<pre>${data.exercise}</pre>`;
+        });
+    };
+</script>
+{% endblock %}
