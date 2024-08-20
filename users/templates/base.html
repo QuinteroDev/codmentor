@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Codmentor{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    
+    <!-- Incluir CodeMirror CSS -->
+    <link rel="stylesheet" href="{% static 'codemirror/lib/codemirror.css' %}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,5 +56,9 @@
         <!-- El contenido específico de cada página va aquí -->
         {% endblock %}
     </div>
+    
+    <!-- Incluir CodeMirror JS -->
+    <script src="{% static 'codemirror/lib/codemirror.js' %}"></script>
+    <script src="{% static 'codemirror/mode/python/python.js' %}"></script>
 </body>
 </html>
