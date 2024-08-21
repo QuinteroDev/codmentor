@@ -11,9 +11,11 @@ from .forms import (
     ExerciseForm
 )
 from .models import Profile
-from .openai_client import generate_exercise
+from .openai_client import generate_exercise, generate_openai_feedback
 from django.views.decorators.csrf import csrf_exempt
 import subprocess
+import time
+import resource  # Usado para medir el uso de recursos en sistemas Unix
 
 def login_view(request):
     if request.method == 'POST':
@@ -60,38 +62,70 @@ def generate_exercise_view(request):
         if form.is_valid():
             language = form.cleaned_data['language']
             difficulty = form.cleaned_data['difficulty']
-            prompt = f"Generate a {difficulty} exercise in {language}"
-            exercise = generate_exercise(prompt)
-            
-            # Renderiza la plantilla con el ejercicio y el editor
+            exercise = generate_exercise(language, difficulty)
             return render(request, 'users/generate_exercise.html', {
                 'form': form,
-                'exercise': exercise,
+                'exercise': exercise
             })
     else:
         form = ExerciseForm()
 
     return render(request, 'users/generate_exercise.html', {'form': form})
 
-@csrf_exempt  # Exenta de la verificación CSRF solo para propósitos de prueba
 def run_code_view(request):
     if request.method == 'POST':
-        code = request.POST.get('code', '')
-        language = request.POST.get('language', 'python')
+        code = request.POST.get('code')
+        language = request.POST.get('language')
+        exercise_description = request.POST.get('exercise_description')
+        expected_output = "Expected output based on the exercise"  # Define this properly based on the exercise.
 
-        try:
-            # Dependiendo del lenguaje seleccionado, ejecuta el código
-            if language == 'python':
-                result = subprocess.run(
-                    ['python3', '-c', code],
-                    capture_output=True,
-                    text=True
-                )
-            else:
-                return JsonResponse({'error': 'Unsupported language'}, status=400)
-
-            return JsonResponse({'output': result.stdout, 'error': result.stderr})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+        if code and language and exercise_description:
+            evaluation_result = evaluate_code(
+                code,
+                expected_output,
+                language,
+                exercise_description
+            )
+            return JsonResponse(evaluation_result)
+        else:
+            return JsonResponse({'error': 'Code, language, or exercise description not provided'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+def run_user_code(user_code):
+    try:
+        # Guardar el código del usuario en un archivo temporal
+        with open("temp_user_code.py", "w") as code_file:
+            code_file.write(user_code)
+        
+        # Ejecutar el código y capturar la salida
+        process = subprocess.run(["python3", "temp_user_code.py"], capture_output=True, text=True, timeout=5)
+        
+        # Verificar si hubo errores durante la ejecución
+        if process.stderr:
+            return process.stderr.strip()
+        
+        # Devolver la salida estándar si no hubo errores
+        return process.stdout.strip()
+    
+    except subprocess.TimeoutExpired:
+        return "Error: El código tomó demasiado tiempo en ejecutarse y fue terminado."
+    except Exception as e:
+        return f"Error: {str(e)}"
+    
+def evaluate_code(user_code, expected_output, language, exercise_description):
+    try:
+        # Ejecutar el código del usuario
+        output = run_user_code(user_code)
+        
+        # Verificar si el output es correcto
+        is_correct = output == expected_output
+
+        # Generar el feedback utilizando OpenAI
+        openai_feedback = generate_openai_feedback(user_code, expected_output, exercise_description)
+        
+        return {
+            "feedback": openai_feedback
+        }
+    except Exception as e:
+        return {"feedback": f"Error: {str(e)}"}

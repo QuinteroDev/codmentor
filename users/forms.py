@@ -28,13 +28,24 @@ class ExerciseForm(forms.Form):
         ('javascript', 'JavaScript'),
         ('java', 'Java'),
         ('csharp', 'C#'),
+        ('cpp', 'C++'),
+        ('ruby', 'Ruby'),
+        ('go', 'Go'),
+        ('php', 'PHP'),
+        ('swift', 'Swift'),
+        ('typescript', 'TypeScript'),
+        ('kotlin', 'Kotlin'),
+        ('rust', 'Rust'),
     ]
-
+    
     DIFFICULTY_CHOICES = [
+        ('beginner', 'Beginner'),
         ('easy', 'Easy'),
         ('medium', 'Medium'),
         ('hard', 'Hard'),
+        ('expert', 'Expert'),
     ]
 
-    language = forms.ChoiceField(choices=LANGUAGE_CHOICES, label='Language')
-    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES, label='Difficulty')
+
+    language = forms.ChoiceField(choices=LANGUAGE_CHOICES)
+    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES)
