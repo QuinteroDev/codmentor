@@ -1,2 +1,1 @@
-print("python")
-sum("hola")
+print("hola")

@@ -1,26 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Profile
-
-class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
-
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['image', 'bio', 'location']
 
 class ExerciseForm(forms.Form):
     LANGUAGE_CHOICES = [
@@ -46,6 +24,25 @@ class ExerciseForm(forms.Form):
         ('expert', 'Expert'),
     ]
 
+    language = forms.ChoiceField(
+        choices=LANGUAGE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        error_messages={'required': 'Please select a programming language.'}
+    )
+    difficulty = forms.ChoiceField(
+        choices=DIFFICULTY_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        error_messages={'required': 'Please select a difficulty level.'}
+    )
 
-    language = forms.ChoiceField(choices=LANGUAGE_CHOICES)
-    difficulty = forms.ChoiceField(choices=DIFFICULTY_CHOICES)
+    def clean_language(self):
+        language = self.cleaned_data.get('language')
+        if language not in dict(self.LANGUAGE_CHOICES):
+            raise forms.ValidationError("Invalid language selected.")
+        return language
+
+    def clean_difficulty(self):
+        difficulty = self.cleaned_data.get('difficulty')
+        if difficulty not in dict(self.DIFFICULTY_CHOICES):
+            raise forms.ValidationError("Invalid difficulty level selected.")
+        return difficulty

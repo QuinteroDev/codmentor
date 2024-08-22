@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codmentor</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="container-fluid">
+            <div class="header-content">
+                <img src="{% static 'images/logo.png' %}" alt="Codmentor Logo" class="logo">
+                <h1 class="app-title">Codmentor</h1>
+            </div>
+        </div>
+        <h2>Generate a Programming Exercise</h2>
+        <form method="POST" id="exercise-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Generate Exercise</button>
+        </form>
+
+        {% if exercise %}
+        <h3>Exercise:</h3>
+        <pre>{{ exercise }}</pre>
+
+        <!-- Contenedor del editor -->
+        <textarea id="code-editor" name="code-editor" class="form-control" rows="10"></textarea>
+
+        <button id="run-code-btn" class="btn btn-success mt-3">Run Code</button>
+        <div id="exercise-result" class="mt-4"></div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeEditorElement = document.getElementById('code-editor');
+            let editor;
+        
+            if (codeEditorElement) {
+                editor = CodeMirror.fromTextArea(codeEditorElement, {
+                    mode: 'python',
+                    lineNumbers: true,
+                    theme: 'default',
+                    indentUnit: 4,
+                    tabSize: 4,
+                    matchBrackets: true,
+                });
+            }
+        
+            const runCodeBtn = document.getElementById('run-code-btn');
+            if (runCodeBtn) {
+                runCodeBtn.onclick = function(event) {
+                    event.preventDefault();
+                    const code = editor.getValue(); // Obtener el código desde el editor de CodeMirror
+                    const exerciseDescription = "{{ exercise|escapejs }}"; // Escapar adecuadamente la descripción del ejercicio
+        
+                    if (!code) {
+                        console.error("Code is missing or undefined.");
+                        return;
+                    }
+                    fetch('/users/run-code/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}',
+                        },
+                        body: JSON.stringify({ code, exercise_description: exerciseDescription })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        let feedback = data.feedback !== undefined ? data.feedback : "No feedback available.";
+                        document.getElementById('exercise-result').innerText = `Feedback: ${feedback}`;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('exercise-result').innerText = `Error: ${error.message}`;
+                    });
+                };
+            }
+        });
+    </script>
+</body>
+</html>

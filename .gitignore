@@ -1,2 +1,3 @@
 codmentor-env/
 .env
+node_modules

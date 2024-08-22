@@ -1,0 +1,49 @@
+body {
+    font-family: outfit, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    height: 100vh; /* Altura completa de la pantalla */
+    margin: 0;
+}
+
+.header {
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: left; /* Centra el contenido horizontalmente */
+    align-items: left; /* Alinea verticalmente */
+}
+
+.logo {
+    height: 40px; /* Tamaño ajustable del logo */
+    margin-right: 15px; /* Espacio entre logo y título */
+}
+
+
+.container {
+
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-success {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#exercise-result {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+}
