@@ -13,11 +13,8 @@
 </head>
 <body>
     <div class="container mt-4">
-        <div class="container-fluid">
-            <div class="header-content">
-                <img src="{% static 'images/logo.png' %}" alt="Codmentor Logo" class="logo">
-                <h1 class="app-title">Codmentor</h1>
-            </div>
+        <div class="header-content">
+            <h1 class="app-title">Codmentor</h1>
         </div>
         <h2>Generate a Programming Exercise</h2>
         <form method="POST" id="exercise-form">
@@ -27,14 +24,19 @@
         </form>
 
         {% if exercise %}
-        <h3>Exercise:</h3>
-        <pre>{{ exercise }}</pre>
+        <div class="exercise-section">
+            <h3>Exercise:</h3>
+            <div class="exercise-content">
+            <pre>{{ exercise }}</pre>
+            </div>
+        </div>
 
         <!-- Contenedor del editor -->
-        <textarea id="code-editor" name="code-editor" class="form-control" rows="10"></textarea>
-
-        <button id="run-code-btn" class="btn btn-success mt-3">Run Code</button>
-        <div id="exercise-result" class="mt-4"></div>
+        <div class="code-editor-section">
+            <textarea id="code-editor" name="code-editor" class="form-control" rows="10"></textarea>
+            <button id="run-code-btn" class="btn btn-success mt-3">Run Code</button>
+            <div id="exercise-result" class="mt-4"></div>
+        </div>
         {% endif %}
     </div>
 
