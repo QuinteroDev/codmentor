@@ -17,11 +17,9 @@ class ExerciseForm(forms.Form):
     ]
     
     DIFFICULTY_CHOICES = [
-        ('beginner', 'Beginner'),
         ('easy', 'Easy'),
         ('medium', 'Medium'),
         ('hard', 'Hard'),
-        ('expert', 'Expert'),
     ]
 
     language = forms.ChoiceField(

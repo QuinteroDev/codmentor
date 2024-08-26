@@ -5,6 +5,8 @@ from .openai_client import generate_exercise, generate_openai_feedback
 from django.views.decorators.csrf import csrf_exempt
 import subprocess
 import json
+from django.contrib import messages
+
 
 def generate_exercise_view(request):
     if request.method == 'POST':
@@ -17,6 +19,8 @@ def generate_exercise_view(request):
                 'form': form,
                 'exercise': exercise
             })
+        else:
+            messages.error(request, "Please select both a programming language and a difficulty level.")
     else:
         form = ExerciseForm()
     return render(request, 'generate_exercise.html', {'form': form})

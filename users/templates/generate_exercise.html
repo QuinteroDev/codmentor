@@ -19,9 +19,41 @@
         <h2>Generate a Programming Exercise</h2>
         <form method="POST" id="exercise-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <label for="language">Language:</label>
+            <select name="language" id="language">
+                <option value="#">Select Language </option>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="csharp">C#</option>
+                <option value="cpp">C++</option>
+                <option value="ruby">Ruby</option>
+                <option value="go">Go</option>
+                <option value="php">PHP</option>
+                <option value="swift">Swift</option>
+                <option value="typescript">TypeScript</option>
+                <option value="kotlin">Kotlin</option>
+                <option value="rust">Rust</option>
+            </select>
+            
+            <label for="difficulty">Difficulty:</label>
+            <select name="difficulty" id="difficulty">
+                <option value="#">Select Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            
             <button type="submit" class="btn btn-primary mt-3">Generate Exercise</button>
         </form>
+
+        {% if messages %}
+        <div class="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        </div>
+        {% endif %}
 
         {% if exercise %}
         <div class="exercise-section">
@@ -33,6 +65,7 @@
 
         <!-- Contenedor del editor -->
         <div class="code-editor-section">
+            <h3>Code Editor:</h3>
             <textarea id="code-editor" name="code-editor" class="form-control" rows="10"></textarea>
             <button id="run-code-btn" class="btn btn-success mt-3">Run Code</button>
             <div id="exercise-result" class="mt-4"></div>
@@ -46,9 +79,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+        
             const codeEditorElement = document.getElementById('code-editor');
             let editor;
-        
+            
             if (codeEditorElement) {
                 editor = CodeMirror.fromTextArea(codeEditorElement, {
                     mode: 'python',
@@ -64,13 +98,16 @@
             if (runCodeBtn) {
                 runCodeBtn.onclick = function(event) {
                     event.preventDefault();
+        
                     const code = editor.getValue(); // Obtener el código desde el editor de CodeMirror
                     const exerciseDescription = "{{ exercise|escapejs }}"; // Escapar adecuadamente la descripción del ejercicio
+
         
                     if (!code) {
                         console.error("Code is missing or undefined.");
                         return;
                     }
+        
                     fetch('/users/run-code/', {
                         method: 'POST',
                         headers: {
@@ -86,8 +123,13 @@
                         return response.json();
                     })
                     .then(data => {
+                        console.log("Response data:", data);
                         let feedback = data.feedback !== undefined ? data.feedback : "No feedback available.";
-                        document.getElementById('exercise-result').innerText = `Feedback: ${feedback}`;
+                        
+                        // Convertimos saltos de línea en etiquetas <br> para que se rendericen correctamente
+                        feedback = feedback.replace(/\n/g, "<br>");
+                        
+                        document.getElementById('exercise-result').innerHTML = `<strong>Feedback:</strong><br><br>${feedback}`;
                     })
                     .catch(error => {
                         console.error('Error:', error);
