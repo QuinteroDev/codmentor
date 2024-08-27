@@ -13,7 +13,6 @@ class ExerciseForm(forms.Form):
         ('swift', 'Swift'),
         ('typescript', 'TypeScript'),
         ('kotlin', 'Kotlin'),
-        ('rust', 'Rust'),
     ]
     
     DIFFICULTY_CHOICES = [

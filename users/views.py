@@ -61,6 +61,6 @@ def run_user_code(user_code):
         
         return process.stdout.strip()
     except subprocess.TimeoutExpired:
-        return "Error: El código tomó demasiado tiempo en ejecutarse y fue terminado."
+        return "Error: Code spend too much time and stopped."
     except Exception as e:
         return f"Error: {str(e)}"

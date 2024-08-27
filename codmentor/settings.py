@@ -24,10 +24,6 @@ DEBUG = env.bool('DEBUG', default=False)
 SECRET_KEY = env('SECRET_KEY')
 OPENAI_API_KEY = env('OPENAI_API_KEY', default='Not Found')
 
-# QUITAR EN PRODUCCIÓN
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +38,6 @@ print("SECRET_KEY:", SECRET_KEY)
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,14 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-
-    'users.apps.UsersConfig',
-
-    'rest_framework',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -156,6 +143,3 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-LOGIN_REDIRECT_URL = 'profile'  # Redirige al perfil después de iniciar sesión
-LOGOUT_REDIRECT_URL = 'login'   # Redirige al login después de cerrar sesión

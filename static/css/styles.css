@@ -98,7 +98,7 @@ h2 {
 }
 
 h3 {
-    font-size: 1.4rem;
+    font-size: 32px;
 }
 
 .exercise-section,
@@ -138,10 +138,11 @@ pre {
     max-height: 400px; /* Limitar la altura máxima del contenedor */
     overflow-y: scroll; /* Añadir scroll vertical */
     padding: 15px;
-    background-color: #f8f9fa;
+    background-color: white;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
 
 textarea#code-editor {
     width: 100%;
@@ -197,4 +198,20 @@ button.btn-success:hover {
 button.btn-success:active {
     background-color: #2E65A3;
     box-shadow: none;
+}
+
+#loading-message {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+#loading-message p {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
 }
