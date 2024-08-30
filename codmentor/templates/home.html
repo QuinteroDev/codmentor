@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to CodMentor!</title>
+    <link rel="stylesheet" href="{% static 'css/home/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to CodMentor!</h1>
+        <h3>Created by QuinteroDev</h3>
+        <div class="profile-pic">
+            <img src="{% static 'img/quintero.jpeg' %}" alt="Quintero Photo" class="profile-pic">
+        </div>
+        <div class="description">
+            <p>Select your difficulty level and programming language to receive a coding exercise. Use the built-in code editor to solve the exercise. Customize your experience by choosing your preferred theme in the editor.</p>
+            <p>Once you've completed the exercise, click "Run Code" to submit your solution. Your mentor will provide feedback based on your submission.</p>
+        </div>
+        
+        <div class="start-button">
+            <a href="/users/generate-exercise/" class="btn">Start</a>
+        </div>
+    </div>
+</body>
+</html>
