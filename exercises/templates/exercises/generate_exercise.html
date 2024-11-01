@@ -8,7 +8,11 @@
 <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
         <div class="card shadow-sm p-5">
-            <h1 class="text-center mb-4">Generate a Programming Exercise</h1>
+            <h1 class="text-center mb-4 title">
+                <i class="fas fa-user-graduate"></i>
+                CODMENTOR
+                <i class="fas fa-book"></i>
+            </h1>
             
             <form method="post" id="exercise-form" class="p-4 rounded shadow-sm bg-light">
                 {% csrf_token %}
@@ -68,7 +72,7 @@
             <div id="exercise-container" class="mt-5 d-none">
                 <h3 class="text-primary">Your Code:</h3>
                 <div class="border rounded">
-                    <textarea id="code-editor" name="code" class="w-100"></textarea>
+                    <textarea id="code-editor" name="code" class="w-100" style="height: 300px;"></textarea>
                 </div>
                 
                 <!-- Botón para ejecutar código -->

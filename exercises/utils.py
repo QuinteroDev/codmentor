@@ -5,7 +5,7 @@ import re
 
 def generate_exercise(language, difficulty):
     prompt = f"""
-You are a helpful assistant that generates diverse and creative programming exercises. Please create a {difficulty} exercise in {language} following this format and respond **strictly as JSON**:
+You are a helpful assistant that generates diverse and creative programming exercises. Please create a {difficulty} exercise in {language} that does not require user input via the console following this format and respond **strictly as JSON**:
 
 {{
     "title": "Exercise title",
@@ -19,7 +19,7 @@ Make sure to follow this JSON structure exactly without extra text.
 """
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant that generates diverse and creative programming exercises."},
             {"role": "user", "content": prompt},

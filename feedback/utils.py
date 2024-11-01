@@ -4,7 +4,8 @@ import re
 
 def generate_openai_feedback(user_code, expected_output, exercise_description):
     prompt = f"""
-You are a helpful programming mentor. Analyze the following exercise description and the user's code.
+You are a helpful programming mentor. Please analyze the following exercise description and the code provided by the student.
+
 
 Exercise Description:
 {exercise_description}
@@ -16,9 +17,9 @@ Expected Output:
 {expected_output if expected_output else "No specific output provided."}
 
 Please provide feedback in the following format without HTML or markdown:
-1. Output Verification: Verify if the output meets expectations and acknowledge efforts.
-2. Corrections: Step-by-step corrections if needed.
-3. Improvements: Suggestions or praise if no improvements are needed.
+1. Output Verification: Start by acknowledging the user's efforts, then verify if the code produces the expected output based on the exercise.
+2. Corrections: If the code doesn't meet the exercise requirements, give the user clear, step-by-step instructions on what they should correct;
+3. Improvements: If the code is correct, offer suggestions on how the user can improve or optimize their code, or if no improvements are needed, praise them for their good work;
 4. Encouragement: A positive message encouraging further practice.
 
 Respond strictly as JSON using this format:

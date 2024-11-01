@@ -12,7 +12,7 @@ class FeedbackView(View):
             data = json.loads(request.body)
             user_code = data.get('code')
             exercise_description = data.get('exercise_description')
-            result = data.get('result')
+            expected_output = data.get('expected_output', "")  
 
             if not user_code or not exercise_description:
                 return JsonResponse({'error': 'Code or exercise description missing'}, status=400)
@@ -20,8 +20,10 @@ class FeedbackView(View):
             # Generar feedback usando OpenAI
             feedback = generate_openai_feedback(
                 user_code=user_code, 
-                expected_output=result, 
+                expected_output=expected_output,
                 exercise_description=exercise_description)
+            print("User Code:", user_code)
+            print("Exercise Description:", exercise_description)
 
             return JsonResponse({'feedback': feedback})
         except Exception as e:
