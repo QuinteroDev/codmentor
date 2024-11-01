@@ -22,9 +22,10 @@ from .views import HomeView, RedirectExerciseView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('codmentor/', HomeView.as_view(), name='home'),
-    path('codmentor/redirect/', RedirectExerciseView.as_view(), name='redirect_exercise'),
+    path('', HomeView.as_view(), name='home'),
+    path('redirect/', RedirectExerciseView.as_view(), name='redirect_exercise'),
+    path('exercises/', include('exercises.urls')),
+    path('feedback/', include('feedback.urls')),
 ]
 
 if settings.DEBUG:

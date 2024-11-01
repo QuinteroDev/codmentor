@@ -3,25 +3,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to CodMentor!</title>
-    <link rel="stylesheet" href="{% static 'css/home/styles.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-    <div class="container">
-        <h1>Welcome to CodMentor!</h1>
-        <h3>Created by QuinteroDev</h3>
-        <div class="profile-pic">
-            <img src="{% static 'img/quintero.jpeg' %}" alt="Quintero Photo" class="profile-pic">
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Welcome to CodMentor!</h1>
+            <h3 class="text-muted">Created by QuinteroDev</h3>
         </div>
-        <div class="description">
-            <p>Select your difficulty level and programming language to receive a coding exercise. Use the built-in code editor to solve the exercise. Customize your experience by choosing your preferred theme in the editor.</p>
-            <p>Once you've completed the exercise, click "Run Code" to submit your solution. Your mentor will provide feedback based on your submission.</p>
+
+        <div class="text-center mb-4">
+            <img src="{% static 'img/quintero.jpeg' %}" alt="Quintero Photo" class="rounded-circle img-thumbnail" width="150">
+        </div>
+
+        <div class="description text-center mb-4">
+            <p class="lead">Select your difficulty level and programming language to receive a coding exercise. Use the built-in code editor to solve the exercise. Customize your experience by choosing your preferred theme in the editor.</p>
+            <p class="lead">Once you've completed the exercise, click "Run Code" to submit your solution. Your mentor will provide feedback based on your submission.</p>
         </div>
         
-        <div class="start-button">
-            <a href="/users/generate-exercise/" class="btn">Start</a>
+        <div class="text-center">
+            <a href="{% url 'generate-exercise' %}" class="btn btn-primary btn-lg">Start</a>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

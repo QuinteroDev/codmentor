@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load form_filters %}
+
+{% block title %}Generate Exercise{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card shadow-sm p-5">
+            <h1 class="text-center mb-4">Generate a Programming Exercise</h1>
+            
+            <form method="post" id="exercise-form" class="p-4 rounded shadow-sm bg-light">
+                {% csrf_token %}
+                
+                <div class="form-group mb-3">
+                    <label for="language" class="font-weight-bold">Programming Language:</label>
+                    {{ form.language|add_class:"form-control form-control-lg" }}
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label for="difficulty" class="font-weight-bold">Difficulty Level:</label>
+                    {{ form.difficulty|add_class:"form-control form-control-lg" }}
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg w-100" id="generate-button">Generate Exercise</button>
+                </div>
+            </form>
+
+            <!-- Spinner de carga -->
+            <div class="text-center mt-3 d-none" id="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Generating your exercise, please wait...</p>
+            </div>
+
+            {% if exercise %}
+            <div class="mt-5">
+                <h3 class="text-primary">Generated Exercise:</h3>
+                <div class="p-4 bg-light border rounded">
+                    {% if exercise.title %}
+                    <h4 class="font-weight-bold">Title:</h4>
+                    <p>{{ exercise.title }}</p>
+                    {% endif %}
+                    
+                    {% if exercise.objective %}
+                    <h4 class="font-weight-bold">Objective:</h4>
+                    <p>{{ exercise.objective }}</p>
+                    {% endif %}
+                    
+                    {% if exercise.instructions %}
+                    <h4 class="font-weight-bold">Instructions:</h4>
+                    <ul>
+                        {% for instruction in exercise.instructions %}
+                        <li>{{ instruction }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    
+                    {% if exercise.example_output %}
+                    <h4 class="font-weight-bold">Example Output:</h4>
+                    <p>{{ exercise.example_output }}</p>
+                    {% endif %}
+                    
+                    {% if exercise.bonus_challenge %}
+                    <h4 class="font-weight-bold">Bonus Challenge:</h4>
+                    <p>{{ exercise.bonus_challenge }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Editor de código -->
+                <h3 class="text-primary">Your Code:</h3>
+                <div class="border rounded">
+                    <textarea id="code-editor" name="code" class="w-100"></textarea>
+                </div>
+            
+                <!-- Botón para ejecutar código -->
+                <div class="text-center mt-4">
+                    <button class="btn btn-success btn-lg" id="run-code-btn">Run Code</button>
+                </div>
+                
+                <!-- Área para mostrar resultados -->
+                <h3 class="text-primary">Your Feedback:</h3>
+                <div id="exercise-result" class="mt-4 p-3 bg-light border rounded text-dark"></
+            </div>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
-print("SECRET_KEY:", SECRET_KEY)
+
 
 ALLOWED_HOSTS = []
 
@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'exercises',
+    'feedback',
 ]
 
 MIDDLEWARE = [
@@ -74,9 +77,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'users', 'templates'),
-            os.path.join(BASE_DIR, 'codmentor', 'templates')
-
+            os.path.join(BASE_DIR, 'templates'),  # Plantillas en la raíz del proyecto
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -89,7 +90,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'codmentor.wsgi.application'
 
 
