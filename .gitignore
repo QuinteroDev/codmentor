@@ -1,3 +1,27 @@
 codmentor-env/
 .env
 node_modules
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+*.pyd
+*.pyo
+
+# Virtual environments
+venv/
+codmentorenv/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+
+# MacOS
+.DS_Store
+
+# Node.js (si tienes un frontend con npm o yarn)
+node_modules/
