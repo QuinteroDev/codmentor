@@ -1,4 +1,3 @@
-# feedback/views.py
 from django.http import JsonResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -13,12 +12,16 @@ class FeedbackView(View):
             data = json.loads(request.body)
             user_code = data.get('code')
             exercise_description = data.get('exercise_description')
+            result = data.get('result')
 
             if not user_code or not exercise_description:
                 return JsonResponse({'error': 'Code or exercise description missing'}, status=400)
 
             # Generar feedback usando OpenAI
-            feedback = generate_openai_feedback(user_code=user_code, expected_output="", exercise_description=exercise_description)
+            feedback = generate_openai_feedback(
+                user_code=user_code, 
+                expected_output=result, 
+                exercise_description=exercise_description)
 
             return JsonResponse({'feedback': feedback})
         except Exception as e:

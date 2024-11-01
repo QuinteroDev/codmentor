@@ -28,7 +28,7 @@
                 </div>
             </form>
 
-            <!-- Spinner de carga -->
+            <!-- Spinner de carga de ejercicio -->
             <div class="text-center mt-3 d-none" id="loading-spinner">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -37,55 +37,57 @@
             </div>
 
             {% if exercise %}
+            <!-- Ejercicio generado -->
             <div class="mt-5">
                 <h3 class="text-primary">Generated Exercise:</h3>
                 <div class="p-4 bg-light border rounded">
-                    {% if exercise.title %}
                     <h4 class="font-weight-bold">Title:</h4>
                     <p>{{ exercise.title }}</p>
-                    {% endif %}
-                    
-                    {% if exercise.objective %}
                     <h4 class="font-weight-bold">Objective:</h4>
                     <p>{{ exercise.objective }}</p>
-                    {% endif %}
-                    
-                    {% if exercise.instructions %}
                     <h4 class="font-weight-bold">Instructions:</h4>
                     <ul>
                         {% for instruction in exercise.instructions %}
                         <li>{{ instruction }}</li>
                         {% endfor %}
                     </ul>
-                    {% endif %}
-                    
-                    {% if exercise.example_output %}
                     <h4 class="font-weight-bold">Example Output:</h4>
                     <p>{{ exercise.example_output }}</p>
-                    {% endif %}
-                    
-                    {% if exercise.bonus_challenge %}
                     <h4 class="font-weight-bold">Bonus Challenge:</h4>
                     <p>{{ exercise.bonus_challenge }}</p>
-                    {% endif %}
                 </div>
-                
-                <!-- Editor de código -->
+                            <!-- Botón para iniciar el editor de código -->
+                <div class="text-center mt-4">
+                <button class="btn btn-secondary btn-lg" id="start-exercise-btn">Start Exercise</button>
+               </div>
+            </div>
+            {% endif %}
+
+
+            <!-- Contenedor del editor de código, botón "Run Code" y spinner de feedback -->
+            <div id="exercise-container" class="mt-5 d-none">
                 <h3 class="text-primary">Your Code:</h3>
                 <div class="border rounded">
                     <textarea id="code-editor" name="code" class="w-100"></textarea>
                 </div>
-            
+                
                 <!-- Botón para ejecutar código -->
                 <div class="text-center mt-4">
                     <button class="btn btn-success btn-lg" id="run-code-btn">Run Code</button>
                 </div>
                 
-                <!-- Área para mostrar resultados -->
-                <h3 class="text-primary">Your Feedback:</h3>
-                <div id="exercise-result" class="mt-4 p-3 bg-light border rounded text-dark"></
+                <!-- Spinner de carga de feedback -->
+                <div class="text-center mt-3 d-none" id="loading-spinner-feedback">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Generating your feedback, please wait...</p>
+                </div>
+
+                <!-- Área para mostrar feedback -->
+                <h3 class="text-primary mt-4">Your Feedback:</h3>
+                <div id="exercise-result" class="mt-4 p-3 bg-light border rounded text-dark"></div>
             </div>
-            {% endif %}
     </div>
 </div>
 {% endblock %}
